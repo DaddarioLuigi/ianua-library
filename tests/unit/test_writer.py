@@ -1,0 +1,22 @@
+"""Writer."""
+
+from ianuacare.models.context import RequestContext
+from ianuacare.models.packet import DataPacket
+from ianuacare.models.user import User
+from ianuacare.storage.writer import Writer
+
+
+def test_write_roundtrip(db, bucket) -> None:
+    w = Writer(db, bucket)
+    u = User("u1", "r", [])
+    ctx = RequestContext(u, "prod", {})
+    p = DataPacket(
+        raw_data={"a": 1},
+        processed_data={"b": 2},
+        inference_result={"c": 3},
+        metadata={"request_id": "r1"},
+    )
+    assert w.write_raw(p, ctx)["ok"] is True
+    assert w.write_processed(p, ctx)["ok"] is True
+    assert w.write_result(p, ctx)["ok"] is True
+    assert w.write_log("event", ctx)["ok"] is True
