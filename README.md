@@ -10,7 +10,45 @@ pip install -e ".[dev]"
 
 ## Documentation
 
-See the [`docs/`](docs/) folder: [index](docs/index.md), [architecture](docs/architecture.md), [getting started](docs/getting-started.md), [API reference](docs/api-reference.md), [extending](docs/extending.md).
+See the [`docs/`](docs/) folder:
+
+- [Index](docs/index.md)
+- [Architecture](docs/architecture.md)
+- [Getting started](docs/getting-started.md)
+- [API reference](docs/api-reference.md)
+- [Preconfigurations](docs/preconfigurations.md)
+- [Extending](docs/extending.md)
+- [Documentation workflow](docs/documentation-workflow.md)
+
+Build docs locally:
+
+```bash
+mkdocs serve
+```
+
+## Preconfigured adapters
+
+The library now includes production-oriented adapters and a generic stack factory:
+
+- `CognitoUserRepository` (AWS Cognito)
+- `PostgresDatabaseClient` (PostgreSQL)
+- `S3BucketClient` (AWS S3)
+- `TogetherAIProvider` (Together AI)
+- `RedisCacheClient` (Redis)
+- `KMSEncryptionService` (AWS KMS)
+- `EnvConfigService` and `StructuredLogger`
+- `create_stack(...)` in `ianuacare.presets` for vendor-agnostic wiring
+
+Install optional dependencies as needed:
+
+```bash
+pip install -e ".[aws,postgres,together,redis]"
+```
+
+## Documentation policy
+
+Documentation updates are mandatory for every feature, refactor, or bugfix that changes behavior, API, architecture, or setup.
+See [documentation workflow](docs/documentation-workflow.md).
 
 ## Quick example
 

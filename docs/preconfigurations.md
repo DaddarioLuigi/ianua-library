@@ -4,30 +4,30 @@ Ianuacare now ships production-oriented adapters and a vendor-agnostic stack fac
 
 ## Available adapters
 
-### Auth
+### :material-shield-account: Auth
 
-- `CognitoUserRepository` (`ianuacare.infrastructure.auth`) for Cognito access tokens.
+- :simple-amazonaws: `CognitoUserRepository` (`ianuacare.infrastructure.auth`) for Cognito access tokens.
 
-### Storage
+### :material-database: Storage
 
-- `PostgresDatabaseClient` (`ianuacare.infrastructure.storage`) for JSON payload persistence.
-- `S3BucketClient` (`ianuacare.infrastructure.storage`) for blob/object storage.
+- :simple-postgresql: `PostgresDatabaseClient` (`ianuacare.infrastructure.storage`) for JSON payload persistence.
+- :simple-amazonaws: `S3BucketClient` (`ianuacare.infrastructure.storage`) for blob/object storage.
 
-### AI provider
+### :material-robot-outline: AI provider
 
-- `TogetherAIProvider` (`ianuacare.ai.providers`) for Together chat inference.
+- :material-brain: `TogetherAIProvider` (`ianuacare.ai.providers`) for Together chat inference.
 
-### Cache and encryption
+### :material-lightning-bolt-circle: Cache and encryption
 
 - `CacheClient` + `InMemoryCacheClient` (`ianuacare.infrastructure.cache`)
-- `RedisCacheClient` (`ianuacare.infrastructure.cache.redis`)
+- :simple-redis: `RedisCacheClient` (`ianuacare.infrastructure.cache.redis`)
 - `EncryptionService` + `NoOpEncryption` (`ianuacare.infrastructure.encryption`)
-- `KMSEncryptionService` (`ianuacare.infrastructure.encryption.kms`)
+- :simple-amazonaws: `KMSEncryptionService` (`ianuacare.infrastructure.encryption.kms`)
 
-### Configuration and logging
+### :material-cog-outline: Configuration and logging
 
 - `EnvConfigService` (`ianuacare.core.config`) reads `IANUA_*` environment variables.
-- `StructuredLogger` (`ianuacare.core.logging`) emits JSON logs with context fields.
+- :material-math-log: `StructuredLogger` (`ianuacare.core.logging`) emits JSON logs with context fields.
 
 ## Generic factory
 

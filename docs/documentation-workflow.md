@@ -6,6 +6,13 @@ This project uses **MkDocs** with **Material for MkDocs** to keep technical docu
 
 Keep docs updated every time the library changes (new modules, renamed packages, changed APIs, new examples, behavior changes).
 
+## Non-negotiable rule
+
+Documentation updates are **mandatory for every feature, refactor, or bugfix** that changes behavior, API, architecture, or setup.
+
+- A feature is not complete until docs are updated.
+- If no documentation file changes, the PR description must explicitly explain why docs are not impacted.
+
 ## What to update when code changes
 
 For each relevant code change, update one or more pages in `docs/`:
@@ -25,6 +32,20 @@ Before closing a feature/refactor/bugfix, verify:
 - Imports/module paths are correct and match current package layout.
 - At least one usage example is still valid.
 - Deprecated or removed behavior is explicitly called out.
+- New external services/integrations are listed in `docs/preconfigurations.md` with clear naming and icons.
+
+## Service icons convention
+
+When documenting integrations, use MkDocs Material icon shortcodes for fast visual scanning.
+
+Examples:
+
+- `:simple-postgresql:` PostgreSQL
+- `:simple-amazonaws:` AWS services (Cognito, S3, KMS)
+- `:simple-redis:` Redis
+- `:material-robot-outline:` AI providers
+
+Prefer stable, recognizable icons and keep the label text next to the icon for readability.
 
 ## Build and verify locally
 
