@@ -4,6 +4,8 @@ Public symbols are re-exported from `ianuacare` (`from ianuacare import ...`).
 
 ## Domain models
 
+Module path: `ianuacare.core.models`
+
 ### `User`
 
 - `user_id: str`
@@ -25,10 +27,14 @@ Mutable pipeline state:
 
 ## Exceptions (`IanuacareError`)
 
+Module path: `ianuacare.core.exceptions`
+
 - `IanuacareError` — base; has `message` and `code`.
 - `AuthenticationError`, `AuthorizationError`, `ValidationError`, `OrchestrationError`, `InferenceError`, `StorageError`.
 
 ## Auth
+
+Module path: `ianuacare.core.auth`
 
 ### `UserRepository`
 
@@ -42,6 +48,8 @@ Mutable pipeline state:
 - `build_context(user, *, product, metadata=...)` — builds `RequestContext`.
 
 ## Pipeline
+
+Module path: `ianuacare.core.pipeline`
 
 ### `DataManager`
 
@@ -57,6 +65,8 @@ Mutable pipeline state:
 
 ## Orchestration
 
+Module path: `ianuacare.core.orchestration`
+
 ### `DataParser`
 
 - `parse(packet: DataPacket) -> DataPacket` — default copies `validated_data` → `parsed_data`; override `_parse_impl` for custom parsing.
@@ -65,8 +75,11 @@ Mutable pipeline state:
 
 - `execute(packet, context) -> DataPacket` — parse, select model, run inference, set `processed_data` and `inference_result`.
 - `_select_model(context, packet) -> str` — uses `context.metadata["model_key"]`, `packet.metadata["model_key"]`, `default_model_key`, or a single registered model.
+- Optional cache integration via `cache: CacheClient | None` and `cache_ttl_seconds`.
 
 ## AI
+
+Module paths: `ianuacare.ai`, `ianuacare.ai.nlp`, `ianuacare.ai.cv`, `ianuacare.ai.tabular`
 
 ### `BaseAIModel` (abstract)
 
@@ -82,6 +95,8 @@ Mutable pipeline state:
 
 ## Storage
 
+Module path: `ianuacare.infrastructure.storage`
+
 ### Protocols
 
 - `DatabaseClient`: `write(collection, record) -> dict`, `fetch_all(collection) -> list`
@@ -90,6 +105,8 @@ Mutable pipeline state:
 ### Implementations
 
 - `InMemoryDatabaseClient`, `InMemoryBucketClient`
+- `PostgresDatabaseClient` (optional dependency: `psycopg`)
+- `S3BucketClient` (optional dependency: `boto3`)
 
 ### `Writer`
 
@@ -97,10 +114,13 @@ Mutable pipeline state:
 - `write_processed(packet, context) -> dict`
 - `write_result(packet, context) -> dict`
 - `write_log(message, context) -> dict` — **message must not contain PHI**.
+- Optional `encryption: EncryptionService | None` at constructor time.
 
 Raises `StorageError` on failure.
 
 ## Audit
+
+Module path: `ianuacare.core.audit`
 
 ### `AuditService`
 
@@ -110,7 +130,29 @@ Writes to collection `audit_events`. **Do not** put PHI in `details`.
 
 ## Config
 
+Module path: `ianuacare.core.config`
+
 ### `ConfigService`
 
 - `get(key, default=None) -> Any`
 - `set(key, value)` — for tests/dynamic config.
+
+### `EnvConfigService`
+
+- `get(key, default=None)` reads in-memory config first, then `IANUA_<KEY>` env vars.
+
+## Logging
+
+Module path: `ianuacare.core.logging`
+
+### `StructuredLogger`
+
+- `info()`, `warning()`, `error()` emit JSON logs with contextual fields.
+
+## Presets
+
+Module path: `ianuacare.presets`
+
+### `create_stack(...)`
+
+- Factory that wires `AuthService`, `Writer`, `Orchestrator`, and `Pipeline` from injected adapters.

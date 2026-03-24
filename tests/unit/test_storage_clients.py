@@ -1,7 +1,7 @@
 """Database and bucket clients."""
 
-from ianuacare.storage.bucket import InMemoryBucketClient
-from ianuacare.storage.database import InMemoryDatabaseClient
+from ianuacare.infrastructure.storage.bucket import InMemoryBucketClient
+from ianuacare.infrastructure.storage.database import InMemoryDatabaseClient
 
 
 def test_database_write_fetch() -> None:

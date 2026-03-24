@@ -2,9 +2,9 @@
 
 import pytest
 
-from ianuacare.exceptions.errors import ValidationError
-from ianuacare.models.packet import DataPacket
-from ianuacare.pipeline.validator import DataValidator
+from ianuacare.core.exceptions.errors import ValidationError
+from ianuacare.core.models.packet import DataPacket
+from ianuacare.core.pipeline.validator import DataValidator
 
 
 def test_validate_ok() -> None:

@@ -1,7 +1,7 @@
 """DataParser."""
 
-from ianuacare.models.packet import DataPacket
-from ianuacare.orchestration.parser import DataParser
+from ianuacare.core.models.packet import DataPacket
+from ianuacare.core.orchestration.parser import DataParser
 
 
 def test_parse_pass_through() -> None:

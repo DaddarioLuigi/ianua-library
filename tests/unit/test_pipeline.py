@@ -1,13 +1,13 @@
 """Pipeline unit tests."""
 
 from ianuacare.ai.base import BaseAIModel
-from ianuacare.audit.service import AuditService
-from ianuacare.orchestration.orchestrator import Orchestrator
-from ianuacare.orchestration.parser import DataParser
-from ianuacare.pipeline.data_manager import DataManager
-from ianuacare.pipeline.pipeline import Pipeline
-from ianuacare.pipeline.validator import DataValidator
-from ianuacare.storage.writer import Writer
+from ianuacare.core.audit.service import AuditService
+from ianuacare.core.orchestration.orchestrator import Orchestrator
+from ianuacare.core.orchestration.parser import DataParser
+from ianuacare.core.pipeline.data_manager import DataManager
+from ianuacare.core.pipeline.pipeline import Pipeline
+from ianuacare.core.pipeline.validator import DataValidator
+from ianuacare.infrastructure.storage.writer import Writer
 
 
 class EchoModel(BaseAIModel):

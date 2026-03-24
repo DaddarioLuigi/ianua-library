@@ -1,10 +1,10 @@
 """Ianuacare: healthcare data pipeline and AI inference framework."""
 
 from ianuacare.ai import AIProvider, BaseAIModel, NLPModel
-from ianuacare.audit import AuditService
-from ianuacare.auth import AuthService, UserRepository
-from ianuacare.config import ConfigService
-from ianuacare.exceptions import (
+from ianuacare.core.audit import AuditService
+from ianuacare.core.auth import AuthService, UserRepository
+from ianuacare.core.config import ConfigService, EnvConfigService
+from ianuacare.core.exceptions import (
     AuthenticationError,
     AuthorizationError,
     IanuacareError,
@@ -13,16 +13,26 @@ from ianuacare.exceptions import (
     StorageError,
     ValidationError,
 )
-from ianuacare.models import DataPacket, RequestContext, User
-from ianuacare.orchestration import DataParser, Orchestrator
-from ianuacare.pipeline import DataManager, DataValidator, Pipeline
-from ianuacare.storage import (
+from ianuacare.core.logging import StructuredLogger
+from ianuacare.core.models import DataPacket, RequestContext, User
+from ianuacare.core.orchestration import DataParser, Orchestrator
+from ianuacare.core.pipeline import DataManager, DataValidator, Pipeline
+from ianuacare.infrastructure import (
+    CacheClient,
+    EncryptionService,
+    InMemoryCacheClient,
+    NoOpEncryption,
+)
+from ianuacare.infrastructure.storage import (
     BucketClient,
     DatabaseClient,
     InMemoryBucketClient,
     InMemoryDatabaseClient,
+    PostgresDatabaseClient,
+    S3BucketClient,
     Writer,
 )
+from ianuacare.presets import IanuacareStack, create_stack
 
 __version__ = "0.1.0"
 
@@ -34,7 +44,9 @@ __all__ = [
     "AuthorizationError",
     "BaseAIModel",
     "BucketClient",
+    "CacheClient",
     "ConfigService",
+    "EnvConfigService",
     "DataManager",
     "DataPacket",
     "DataParser",
@@ -43,15 +55,23 @@ __all__ = [
     "IanuacareError",
     "InferenceError",
     "InMemoryBucketClient",
+    "InMemoryCacheClient",
     "InMemoryDatabaseClient",
     "NLPModel",
     "OrchestrationError",
     "Orchestrator",
     "Pipeline",
+    "PostgresDatabaseClient",
     "RequestContext",
+    "S3BucketClient",
+    "StructuredLogger",
     "StorageError",
+    "EncryptionService",
+    "NoOpEncryption",
     "User",
     "UserRepository",
     "ValidationError",
     "Writer",
+    "IanuacareStack",
+    "create_stack",
 ]

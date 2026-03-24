@@ -6,6 +6,8 @@ Subclass `BaseAIModel` and register instances in `Orchestrator`:
 
 ```python
 from ianuacare.ai.base import BaseAIModel
+from ianuacare.core.orchestration.orchestrator import Orchestrator
+from ianuacare.core.orchestration.parser import DataParser
 
 class VisionModel(BaseAIModel):
     def run(self, payload: object) -> dict:
@@ -23,7 +25,7 @@ Then set `RequestContext(..., metadata={"model_key": "vision"})` when routing to
 
 ## Custom parsing
 
-Subclass `DataParser` and override `_parse_impl` for schema validation, FHIR normalization, etc.:
+Subclass `DataParser` (`ianuacare.core.orchestration`) and override `_parse_impl` for schema validation, FHIR normalization, etc.:
 
 ```python
 class FhirParser(DataParser):
@@ -34,11 +36,11 @@ class FhirParser(DataParser):
 
 ## Custom validation
 
-Subclass `DataValidator` and override `_coerce_validated` or `validate` to integrate Pydantic/Marshmallow schemas and raise `ValidationError` with clear messages (avoid echoing PHI in error strings in production).
+Subclass `DataValidator` (`ianuacare.core.pipeline`) and override `_coerce_validated` or `validate` to integrate Pydantic/Marshmallow schemas and raise `ValidationError` with clear messages (avoid echoing PHI in error strings in production).
 
 ## Production storage
 
-Implement `DatabaseClient` and `BucketClient` with your drivers (e.g. SQLAlchemy, boto3). Keep **collection names** and key conventions consistent with your retention and backup policies.
+Implement `DatabaseClient` and `BucketClient` from `ianuacare.infrastructure.storage` with your drivers (e.g. SQLAlchemy, boto3). Keep **collection names** and key conventions consistent with your retention and backup policies.
 
 `Writer` uses blob keys of the form:
 
@@ -46,9 +48,20 @@ Implement `DatabaseClient` and `BucketClient` with your drivers (e.g. SQLAlchemy
 
 Ensure `request_id` is set (automatically by `DataManager.collect()`).
 
+## Cache and encryption extensions
+
+- Implement `CacheClient` (`ianuacare.infrastructure.cache`) to plug custom caches into `Orchestrator`.
+- Implement `EncryptionService` (`ianuacare.infrastructure.encryption`) to encrypt blobs before `Writer` uploads.
+
+Built-in adapters include `RedisCacheClient` and `KMSEncryptionService`.
+
+## Preset assembly
+
+Use `create_stack()` (`ianuacare.presets`) to assemble framework services from your adapters, while keeping the core vendor-agnostic.
+
 ## Authentication in API layers
 
-Call `AuthService.authenticate()` on incoming tokens, then `authorize()` for the permission required by the endpoint (e.g. `pipeline:run`), then build `RequestContext` and call `Pipeline.run()`.
+Call `AuthService.authenticate()` (`ianuacare.core.auth`) on incoming tokens, then `authorize()` for the permission required by the endpoint (e.g. `pipeline:run`), then build `RequestContext` and call `Pipeline.run()`.
 
 ## Audit and compliance
 

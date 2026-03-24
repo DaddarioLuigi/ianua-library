@@ -2,9 +2,9 @@
 
 import pytest
 
-from ianuacare.auth.repository import UserRepository
-from ianuacare.auth.service import AuthService
-from ianuacare.exceptions.errors import AuthenticationError, AuthorizationError
+from ianuacare.core.auth.repository import UserRepository
+from ianuacare.core.auth.service import AuthService
+from ianuacare.core.exceptions.errors import AuthenticationError, AuthorizationError
 
 
 def test_authenticate_success(auth_service: AuthService) -> None:

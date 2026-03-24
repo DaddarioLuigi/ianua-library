@@ -1,6 +1,6 @@
 """Exception hierarchy."""
 
-from ianuacare.exceptions.errors import (
+from ianuacare.core.exceptions.errors import (
     AuthenticationError,
     AuthorizationError,
     IanuacareError,

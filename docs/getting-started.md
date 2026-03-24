@@ -77,4 +77,5 @@ mypy src
 ## Next steps
 
 - Read [API reference](api-reference.md) for class details.
+- Read [Preconfigurations](preconfigurations.md) for production-ready adapters.
 - Read [Extending](extending.md) to add custom models and validation.

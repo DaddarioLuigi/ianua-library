@@ -26,23 +26,35 @@ flowchart LR
     WriteResult -.-> Log
 ```
 
-## Layering
+## Layering (3 layers)
 
-| Layer | Responsibility |
-|-------|----------------|
-| **Models** | `User`, `RequestContext`, `DataPacket` — immutable-friendly dataclasses (`slots=True`). |
-| **Auth** | `AuthService` + `UserRepository` — token → user, permission checks. |
-| **Pipeline** | `Pipeline`, `DataManager`, `DataValidator` — orchestration of stages. |
-| **Orchestration** | `Orchestrator`, `DataParser` — parse input, select model, run inference. |
-| **AI** | `BaseAIModel` (ABC), `NLPModel`, `AIProvider` — pluggable inference. |
-| **Storage** | `DatabaseClient`, `BucketClient` (protocols), `Writer` — persistence adapters. |
-| **Audit** | `AuditService` — append-only style events to a database collection. |
-| **Config** | `ConfigService` — simple key/value configuration. |
-| **Exceptions** | `IanuacareError` hierarchy — typed failures for consumers. |
+| Layer | Responsibility | Main modules |
+|-------|----------------|--------------|
+| **Core** | Domain models, business flow, errors, auth, orchestration and pipeline logic. | `ianuacare.core.models`, `ianuacare.core.pipeline`, `ianuacare.core.orchestration`, `ianuacare.core.auth`, `ianuacare.core.audit`, `ianuacare.core.config`, `ianuacare.core.logging`, `ianuacare.core.exceptions` |
+| **AI** | AI abstractions and AI area packages. | `ianuacare.ai.base`, `ianuacare.ai.provider`, `ianuacare.ai.providers`, `ianuacare.ai.nlp`, `ianuacare.ai.cv`, `ianuacare.ai.tabular` |
+| **Infrastructure** | External adapters and persistence implementations. | `ianuacare.infrastructure.storage`, `ianuacare.infrastructure.auth`, `ianuacare.infrastructure.cache`, `ianuacare.infrastructure.encryption` |
+
+## Package structure
+
+```text
+src/ianuacare/
+  core/
+  ai/
+    providers/
+    nlp/
+    cv/
+    tabular/
+  infrastructure/
+    auth/
+    cache/
+    encryption/
+    storage/
+  presets/
+```
 
 ## Relationships (from the class diagram)
 
-- **Composition**: `Pipeline` holds `DataManager`, `DataValidator`, `Writer`, `Orchestrator`, `AuditService`. `Writer` holds `DatabaseClient` and `BucketClient`. `Orchestrator` holds `DataParser` and a `dict[str, BaseAIModel]`. `AuthService` holds `UserRepository`. `NLPModel` holds `AIProvider`.
+- **Composition**: `Pipeline` holds `DataManager`, `DataValidator`, `Writer`, `Orchestrator`, `AuditService`. `Writer` holds `DatabaseClient`, `BucketClient`, optional `EncryptionService`. `Orchestrator` holds `DataParser`, a `dict[str, BaseAIModel]`, optional `CacheClient`. `AuthService` holds `UserRepository`. `NLPModel` holds `AIProvider`.
 - **Dependency**: most services accept `DataPacket` and `RequestContext` per call (no long-lived coupling).
 - **Inheritance**: `NLPModel` extends `BaseAIModel`; concrete errors extend `IanuacareError`.
 

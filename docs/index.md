@@ -19,7 +19,9 @@ information (PHI) into logs.
 | [Architecture](architecture.md) | Components, relationships, data flow |
 | [Getting started](getting-started.md) | Install, minimal example |
 | [API reference](api-reference.md) | Public classes and methods |
+| [Preconfigurations](preconfigurations.md) | Ready-to-use adapters and stack factory |
 | [Extending](extending.md) | Custom models, storage, validation |
+| [Documentation workflow](documentation-workflow.md) | How and when to update docs with MkDocs |
 
 ## Repository layout
 

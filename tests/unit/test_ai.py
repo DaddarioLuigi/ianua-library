@@ -1,7 +1,7 @@
 """AI layer."""
 
 from ianuacare.ai.base import BaseAIModel
-from ianuacare.ai.nlp import NLPModel
+from ianuacare.ai.nlp.model import NLPModel
 from ianuacare.ai.provider import AIProvider
 
 

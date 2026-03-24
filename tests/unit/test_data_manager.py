@@ -1,6 +1,6 @@
 """DataManager."""
 
-from ianuacare.pipeline.data_manager import DataManager
+from ianuacare.core.pipeline.data_manager import DataManager
 
 
 def test_collect_sets_metadata(context) -> None:

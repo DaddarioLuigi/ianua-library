@@ -1,0 +1,30 @@
+site_name: Ianuacare Library
+site_description: Documentation for the Ianuacare Python library.
+repo_name: ianua-library
+docs_dir: docs
+theme:
+  name: material
+  features:
+    - navigation.instant
+    - navigation.tracking
+    - content.code.copy
+plugins:
+  - search
+markdown_extensions:
+  - admonition
+  - codehilite
+  - pymdownx.superfences:
+      custom_fences:
+        - name: mermaid
+          class: mermaid
+          format: !!python/name:pymdownx.superfences.fence_code_format
+  - toc:
+      permalink: true
+nav:
+  - Home: index.md
+  - Getting started: getting-started.md
+  - Architecture: architecture.md
+  - API reference: api-reference.md
+  - Preconfigurations: preconfigurations.md
+  - Extending: extending.md
+  - Documentation workflow: documentation-workflow.md

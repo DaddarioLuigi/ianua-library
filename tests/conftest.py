@@ -5,12 +5,12 @@ from __future__ import annotations
 import pytest
 
 from ianuacare.ai.provider import AIProvider
-from ianuacare.auth.repository import UserRepository
-from ianuacare.auth.service import AuthService
-from ianuacare.models.context import RequestContext
-from ianuacare.models.user import User
-from ianuacare.storage.bucket import InMemoryBucketClient
-from ianuacare.storage.database import InMemoryDatabaseClient
+from ianuacare.core.auth.repository import UserRepository
+from ianuacare.core.auth.service import AuthService
+from ianuacare.core.models.context import RequestContext
+from ianuacare.core.models.user import User
+from ianuacare.infrastructure.storage.bucket import InMemoryBucketClient
+from ianuacare.infrastructure.storage.database import InMemoryDatabaseClient
 
 
 @pytest.fixture

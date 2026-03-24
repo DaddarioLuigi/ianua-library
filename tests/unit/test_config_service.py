@@ -1,6 +1,6 @@
 """ConfigService."""
 
-from ianuacare.config.service import ConfigService
+from ianuacare.core.config.service import ConfigService
 
 
 def test_get_default() -> None:

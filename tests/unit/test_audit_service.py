@@ -1,8 +1,8 @@
 """AuditService."""
 
-from ianuacare.audit.service import AuditService
-from ianuacare.models.context import RequestContext
-from ianuacare.models.user import User
+from ianuacare.core.audit.service import AuditService
+from ianuacare.core.models.context import RequestContext
+from ianuacare.core.models.user import User
 
 
 def test_log_event(db) -> None:

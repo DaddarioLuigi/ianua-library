@@ -1,8 +1,8 @@
 """Tests for domain models."""
 
-from ianuacare.models.context import RequestContext
-from ianuacare.models.packet import DataPacket
-from ianuacare.models.user import User
+from ianuacare.core.models.context import RequestContext
+from ianuacare.core.models.packet import DataPacket
+from ianuacare.core.models.user import User
 
 
 def test_user_slots_and_fields() -> None:

@@ -3,12 +3,12 @@
 import pytest
 
 from ianuacare.ai.base import BaseAIModel
-from ianuacare.exceptions.errors import InferenceError, OrchestrationError
-from ianuacare.models.context import RequestContext
-from ianuacare.models.packet import DataPacket
-from ianuacare.models.user import User
-from ianuacare.orchestration.orchestrator import Orchestrator
-from ianuacare.orchestration.parser import DataParser
+from ianuacare.core.exceptions.errors import InferenceError, OrchestrationError
+from ianuacare.core.models.context import RequestContext
+from ianuacare.core.models.packet import DataPacket
+from ianuacare.core.models.user import User
+from ianuacare.core.orchestration.orchestrator import Orchestrator
+from ianuacare.core.orchestration.parser import DataParser
 
 
 class OkModel(BaseAIModel):
