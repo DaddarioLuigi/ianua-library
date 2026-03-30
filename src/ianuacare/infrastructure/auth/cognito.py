@@ -201,6 +201,27 @@ def _raise_cognito_update_user_attributes_error(exc: Any) -> NoReturn:
     raise ValidationError("Profile update failed", code="cognito_error") from exc
 
 
+def _raise_cognito_get_user_error(exc: Any) -> NoReturn:
+    """Map Cognito ``GetUser`` failures."""
+    from botocore.exceptions import ClientError
+
+    if not isinstance(exc, ClientError):
+        raise exc
+    code = exc.response.get("Error", {}).get("Code", "")
+    if code in ("NotAuthorizedException", "ResourceNotFoundException"):
+        raise AuthenticationError("Invalid or expired access token", code="invalid_token") from exc
+    if code == "PasswordResetRequiredException":
+        raise AuthenticationError(
+            "Password reset required",
+            code="password_reset_required",
+        ) from exc
+    if code == "TooManyRequestsException":
+        raise AuthenticationError("Too many attempts", code="rate_limited") from exc
+    if code == "InvalidParameterException":
+        raise ValidationError("Invalid profile request", code="invalid_parameter") from exc
+    raise AuthenticationError("Profile read failed", code="cognito_error") from exc
+
+
 class CognitoUserRepository:
     """Resolve users by validating Cognito-issued JWT access tokens."""
 
@@ -410,3 +431,18 @@ class CognitoAccountClient:
             )
         except Exception as exc:
             _raise_cognito_update_user_attributes_error(exc)
+
+    def get_user(self, access_token: str) -> dict[str, Any]:
+        """Call ``get_user`` with ``AccessToken``; return username and attribute map."""
+        try:
+            raw = self._cognito.get_user(AccessToken=access_token)
+        except Exception as exc:
+            _raise_cognito_get_user_error(exc)
+        username = str(raw.get("Username", ""))
+        attrs_list = raw.get("UserAttributes") or []
+        attributes: dict[str, str] = {}
+        for item in attrs_list:
+            name = item.get("Name")
+            if name is not None:
+                attributes[str(name)] = str(item.get("Value", ""))
+        return {"username": username, "attributes": attributes}

@@ -6,6 +6,7 @@ from ianuacare.core.models.packet import DataPacket
 from ianuacare.core.models.password_reset_delivery import PasswordResetDelivery
 from ianuacare.core.models.registration_result import RegistrationResult
 from ianuacare.core.models.user import User
+from ianuacare.core.models.user_profile import UserProfile
 
 __all__ = [
     "DataPacket",
@@ -14,4 +15,5 @@ __all__ = [
     "RegistrationResult",
     "RequestContext",
     "User",
+    "UserProfile",
 ]

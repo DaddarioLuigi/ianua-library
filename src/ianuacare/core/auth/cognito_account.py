@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 from ianuacare.core.models.password_reset_delivery import PasswordResetDelivery
+from ianuacare.core.models.user_profile import UserProfile
 from ianuacare.infrastructure.auth.cognito import CognitoAccountClient
 
 
@@ -62,3 +63,11 @@ class CognitoAccountService:
     ) -> None:
         """Update standard or custom Cognito attributes (e.g. email, name, custom:role)."""
         self._client.update_user_attributes(access_token, attributes)
+
+    def get_profile(self, access_token: str) -> UserProfile:
+        """Load the current user's Cognito username and attribute map."""
+        raw = self._client.get_user(access_token)
+        return UserProfile(
+            username=str(raw["username"]),
+            attributes=dict(raw["attributes"]),
+        )

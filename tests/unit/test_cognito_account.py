@@ -138,3 +138,41 @@ def test_update_profile_alias_exists() -> None:
     with pytest.raises(ValidationError) as ei:
         svc.update_profile_attributes("at", {"email": "taken@example.com"})
     assert ei.value.code == "alias_exists"
+
+
+def test_get_profile_returns_username_and_attributes() -> None:
+    mock_boto3 = MagicMock()
+    cognito = MagicMock()
+    cognito.get_user.return_value = {
+        "Username": "sub-uuid-1",
+        "UserAttributes": [
+            {"Name": "email", "Value": "u@example.com"},
+            {"Name": "name", "Value": "Dr. Who"},
+        ],
+    }
+    mock_boto3.client.return_value = cognito
+
+    with patch.object(cognito_module, "boto3", mock_boto3):
+        svc = CognitoAccountService("eu-west-1", "client-id")
+        profile = svc.get_profile("at")
+
+    assert profile.username == "sub-uuid-1"
+    assert profile.attributes == {"email": "u@example.com", "name": "Dr. Who"}
+    cognito.get_user.assert_called_once_with(AccessToken="at")
+
+
+def test_get_profile_invalid_token() -> None:
+    mock_boto3 = MagicMock()
+    cognito = MagicMock()
+    cognito.get_user.side_effect = ClientError(
+        {"Error": {"Code": "NotAuthorizedException", "Message": "x"}},
+        "GetUser",
+    )
+    mock_boto3.client.return_value = cognito
+
+    with patch.object(cognito_module, "boto3", mock_boto3):
+        svc = CognitoAccountService("eu-west-1", "client-id")
+
+    with pytest.raises(AuthenticationError) as ei:
+        svc.get_profile("bad")
+    assert ei.value.code == "invalid_token"

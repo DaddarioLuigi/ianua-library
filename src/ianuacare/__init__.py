@@ -27,6 +27,7 @@ from ianuacare.core.models import (
     RegistrationResult,
     RequestContext,
     User,
+    UserProfile,
 )
 from ianuacare.core.orchestration import DataParser, Orchestrator
 from ianuacare.core.pipeline import DataManager, DataValidator, Pipeline
@@ -93,4 +94,5 @@ __all__ = [
     "LoginTokens",
     "PasswordResetDelivery",
     "RegistrationResult",
+    "UserProfile",
 ]
